@@ -1,13 +1,42 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "CPlayer_Base.h"
+#include "GameFramework/Character.h"
+#include "GameFramework/SpringArmComponent.h"
+#include "Camera/CameraComponent.h"
+#include "Components/CapsuleComponent.h"
 
 // Sets default values
 ACPlayer_Base::ACPlayer_Base()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+ 	
 	PrimaryActorTick.bCanEverTick = true;
+
+	
+	SpringArm = this->CreateDefaultSubobject<USpringArmComponent>("SpringArm");
+	Camera = this->CreateAbstractDefaultSubobject<UCameraComponent>("Camera");
+
+	USceneComponent* InParent = GetMesh();
+	this->SetRootComponent(InParent);
+
+	if (!!InParent)
+	{
+		SpringArm->SetupAttachment(InParent,NAME_None);
+	}
+	if (!!SpringArm)
+	{
+		Camera->SetupAttachment(SpringArm, NAME_None);
+	}
+	
+
+
+	SpringArm->SetRelativeLocation(FVector(0, 0, 200));
+	SpringArm->SetRelativeRotation(FRotator(0, 90, 0));
+	SpringArm->TargetArmLength = 500;
+	SpringArm->bDoCollisionTest = false;
+	SpringArm->bUsePawnControlRotation = true;
+	SpringArm->bEnableCameraLag = true;
+
 
 }
 

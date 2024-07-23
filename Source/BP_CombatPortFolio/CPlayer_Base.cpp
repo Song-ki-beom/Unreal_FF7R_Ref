@@ -5,6 +5,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/SkeletalMeshComponent.h"
 
 // Sets default values
 ACPlayer_Base::ACPlayer_Base()
@@ -28,15 +29,20 @@ ACPlayer_Base::ACPlayer_Base()
 		Camera->SetupAttachment(SpringArm, NAME_None);
 	}
 	
-
-
-	SpringArm->SetRelativeLocation(FVector(0, 0, 200));
+	SpringArm->TargetArmLength = 120;
+	SpringArm->SetRelativeLocation(FVector(0, 0, 140));
 	SpringArm->SetRelativeRotation(FRotator(0, 90, 0));
-	SpringArm->TargetArmLength = 500;
 	SpringArm->bDoCollisionTest = false;
 	SpringArm->bUsePawnControlRotation = true;
 	SpringArm->bEnableCameraLag = true;
 
+	GetMesh()->SetRelativeLocation(FVector(0, 0, -90));
+	GetMesh()->SetRelativeRotation(FRotator(0, -90, 0));
+
+	USkeletalMesh* mesh;
+	mesh = ConstructorHelpers::FObjectFinder<USkeletalMesh>("SkeletalMesh'/Game/CosmoFoxGirl/Mesh/SK_CKG_no_sleeve.SK_CKG_no_sleeve'").Object;
+
+	GetMesh()->SetSkeletalMesh(mesh);
 
 }
 

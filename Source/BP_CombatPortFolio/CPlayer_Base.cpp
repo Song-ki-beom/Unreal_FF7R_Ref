@@ -6,6 +6,11 @@
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/SkeletalMeshComponent.h"
+#include   "DrawDebugHelpers.h"
+
+#include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetSystemLibrary.h"
+#include "Kismet/KismetMathLibrary.h"
 
 // Sets default values
 ACPlayer_Base::ACPlayer_Base()
@@ -28,7 +33,6 @@ ACPlayer_Base::ACPlayer_Base()
 	{
 		Camera->SetupAttachment(SpringArm, NAME_None);
 	}
-	
 	SpringArm->TargetArmLength = 120;
 	SpringArm->SetRelativeLocation(FVector(0, 0, 140));
 	SpringArm->SetRelativeRotation(FRotator(0, 90, 0));
@@ -40,9 +44,10 @@ ACPlayer_Base::ACPlayer_Base()
 	GetMesh()->SetRelativeRotation(FRotator(0, -90, 0));
 
 	USkeletalMesh* mesh;
-	mesh = ConstructorHelpers::FObjectFinder<USkeletalMesh>("SkeletalMesh'/Game/CosmoFoxGirl/Mesh/SK_CKG_no_sleeve.SK_CKG_no_sleeve'").Object;
-
+	ConstructorHelpers::FObjectFinder<USkeletalMesh> asset (TEXT("SkeletalMesh'/Game/CosmoFoxGirl/Mesh/SK_CKG_no_sleeve.SK_CKG_no_sleeve'"));
+	mesh = asset.Object;
 	GetMesh()->SetSkeletalMesh(mesh);
+
 
 }
 
